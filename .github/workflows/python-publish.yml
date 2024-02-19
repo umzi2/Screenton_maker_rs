@@ -22,7 +22,7 @@ jobs:
         uses: PyO3/maturin-action@v1
         with:
           target: ${{ matrix.target }}
-          args: --release --out dist --interpreter=python${{ matrix.py }} --manifest-path crates/bindings/Cargo.toml
+          args: --release --out dist --interpreter=python${{ matrix.py }} --manifest-path Cargo.toml
           manylinux: auto
       - name: Upload wheels
         uses: actions/upload-artifact@v3
@@ -46,7 +46,7 @@ jobs:
         uses: PyO3/maturin-action@v1
         with:
           target: ${{ matrix.target }}
-          args: --release --out dist --interpreter=python${{ matrix.py }} --manifest-path crates/bindings/Cargo.toml
+          args: --release --out dist --interpreter=python${{ matrix.py }} --manifest-path Cargo.toml
       - name: Upload wheels
         uses: actions/upload-artifact@v3
         with:
@@ -68,7 +68,7 @@ jobs:
         uses: PyO3/maturin-action@v1
         with:
           target: ${{ matrix.target }}
-          args: --release --out dist --interpreter=python${{ matrix.py }} --manifest-path crates/bindings/Cargo.toml
+          args: --release --out dist --interpreter=python${{ matrix.py }} --manifest-path Cargo.toml
       - name: Upload wheels
         uses: actions/upload-artifact@v3
         with:
@@ -83,7 +83,7 @@ jobs:
         uses: PyO3/maturin-action@v1
         with:
           command: sdist
-          args: --out dist --manifest-path crates/bindings/Cargo.toml
+          args: --out dist --manifest-path Cargo.toml
       - name: Upload sdist
         uses: actions/upload-artifact@v3
         with:
