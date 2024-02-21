@@ -1,4 +1,4 @@
-[lib](https://pypi.org/project/screenton-maker-rs/)
+[Pypi](https://pypi.org/project/screenton-maker-rs/)
 ```py
 import cv2
 import numpy as np
