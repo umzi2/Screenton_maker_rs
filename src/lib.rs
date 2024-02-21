@@ -12,8 +12,16 @@ struct Screenton  {
 #[pymethods]
 impl Screenton{
     #[new]
-    fn new(dot_size: usize) -> Self {
-        let screenton = utils::screenton::Screenton::new(dot_size);
+    fn new(dot_size: usize, lx_plus: Option<usize>, ly_plus: Option<usize>) -> Self {
+        let lx_plus = match lx_plus {
+            Some(val) => val,
+            None => dot_size / 2,
+        };
+        let ly_plus = match ly_plus {
+            Some(val) => val,
+            None => dot_size / 2,
+        };
+        let screenton = utils::screenton::Screenton::new(dot_size,lx_plus,ly_plus);
         Screenton { screenton }
     }
 
