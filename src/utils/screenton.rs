@@ -1,5 +1,4 @@
-
-use ndarray::{Array2, ArrayView2};
+use ndarray::Array2;
 use crate::utils::dot;
 
 
@@ -24,36 +23,33 @@ impl Screenton {
         }
     }
     pub fn run(&mut self, array: &mut Array2<f32>) {
-        let min:f32 = 0.0;
-        let max:f32 = 1.0;
-        let (height,width)=(array.shape()[0],array.shape()[1]);
-
-        for ly in 0..height {
-            let ly2 = ly+self.ly_plus;
-            let j = ly2 % self.dot_size;
-            let column = ly2 / self.dot_size;
-
-            for lx in 0..width {
-                let img_volume:f32 = array[[ly,lx]];
-                if img_volume < max && img_volume > min {
-                    let lx2 = lx+self.lx_plus;
-                    let row = lx2 / self.dot_size;
-                    let i = lx2 % self.dot_size;
-
-                    let src: ArrayView2<f32> = if (row + column) % 2 == 1 {
-                        self.dot_inv.view()
+        let dot_size = self.dot_size;
+        let dot = &self.dot;
+        let dot_inv = &self.dot_inv;
+        let ly_plus = &self.ly_plus;
+        let lx_plus = &self.lx_plus;
+        let mut src_values:f32;
+        let mut colum :usize;
+        let(w,h)=(array.shape()[0],array.shape()[1]);
+        let ww=0..w;
+        let hh=0..h;
+        for ly in ww {
+            let ly2 = ly+ly_plus;
+            colum = ly2/self.dot_size;
+            for lx in hh.clone() {
+                let value = &mut array[[ly, lx]];
+                if *value > 0.0 && *value < 1.0 {
+                    let lx2 = lx+lx_plus;
+                    src_values= if (colum+ lx2/dot_size) % 2 == 1 {
+                        dot_inv[[lx2 % dot_size,ly2 % dot_size]]
                     } else {
-                        self.dot.view()
+                        dot[[lx2 % dot_size,ly2 % dot_size]]
                     };
-                    if img_volume < src[[i,j]] {
-                        array[[ly, lx]] = 0.0;
-                    } else {
-                        array[[ly, lx]] = 1.0
-                    }
+                    let src_value = src_values;
+                    *value = if *value < src_value { 0.0 } else { 1.0 };
                 }
             }
         }
     }
-
 }
 
